@@ -1,14 +1,8 @@
-/* eslint-disable no-unused-vars */
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import colorSharp from '../assets/images/color-sharp.png';
-import meter1 from "../assets/images/meter1.svg";
-import meter2 from "../assets/images/meter2.svg";
-import meter3 from "../assets/images/meter3.svg";
 import {SKILLS} from '../shared/skills'
-
-
 
 export const Skills = () => {
     
@@ -20,7 +14,6 @@ export const Skills = () => {
             </div>
         );
     });
-    console.log(Skills);
     const responsive = {
         superLargeDesktop: {
           // the naming can be any, depends on you.
