@@ -16,7 +16,7 @@ export const Contact = () => {
   }
   const [formDetails, setFormDetails] = useState(formInitialDetails);
   const [buttonText, setButtonText] = useState('Send');
-  const [status, setStatus] = useState({});
+//   const [status, setStatus] = useState({});
 
   const form = useRef();
 
@@ -33,13 +33,13 @@ export const Contact = () => {
     emailjs.sendForm('service_pty5cks', 'template_g3mct0r', form.current, 'WqRl_eIxbYwhVqklc')
       .then((result) => {
           console.log(result.text);
-            setStatus({"success": true, "message": "Message sent successfully!"});
+            //setStatus({"success": true, "message": "Message sent successfully!"});
             alert("Message sent successfully!");
             setFormDetails(formInitialDetails);
 
       }, (error) => {
           console.log(error.text);
-            setStatus({"success": false, "message": "There was an error sending the message."});
+            //setStatus({"success": false, "message": "There was an error sending the message."});
             alert("There was an error sending the message.");
 
       });
