@@ -83,7 +83,7 @@ export const SKILLS =
         {
             id: 16,
             name:'Scrum',
-            image: '/assets/images/skills/mongodb.png',
+            image: '/assets/images/skills/scrum.png',
         },
         {
             id: 17,
