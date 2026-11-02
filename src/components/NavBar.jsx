@@ -1,65 +1,92 @@
 import { useState, useEffect } from "react";
-import { Navbar, Nav, Container,} from "react-bootstrap";
-import logo from '../assets/images/logo.svg';
-import navIcon1 from '../assets/images/nav-icon1.svg';
-import navIcon2 from '../assets/images/facebook.svg';
-import navIcon3 from '../assets/images/nav-icon3.svg';
-import { HashLink } from 'react-router-hash-link';
-import { BrowserRouter as Router } from "react-router-dom";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import { Linkedin, Github, Instagram } from "react-bootstrap-icons";
+import { useLanguage, LANGUAGES } from "../i18n/LanguageContext";
 
-console.log(navIcon1);
+const SECTIONS = ['home', 'experience', 'education', 'skills', 'projects'];
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const SOCIAL_LINKS = [
+  { href: 'https://www.linkedin.com/in/jrativamedina', label: 'LinkedIn', Icon: Linkedin },
+  { href: 'https://github.com/Jrativa', label: 'GitHub', Icon: Github },
+  { href: 'https://www.instagram.com/jlrm1106/', label: 'Instagram', Icon: Instagram },
+];
+
 export const NavBar = () => {
-
+  const { t, lang, setLang } = useLanguage();
   const [activeLink, setActiveLink] = useState('home');
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    }
-
+    const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll);
-
     return () => window.removeEventListener("scroll", onScroll);
-  }, [])
+  }, []);
 
-  const onUpdateActiveLink = (value) => {
-    setActiveLink(value);
-  }
+  // Scroll-spy: highlight the section currently in the middle of the viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActiveLink(entry.target.id);
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    SECTIONS.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <Router>
-    <Navbar expand="md" className={scrolled ? "scrolled" : ""}>
+    <Navbar expand="lg" collapseOnSelect className={scrolled ? "scrolled" : ""}>
       <Container>
-        <Navbar.Brand href="/">
-          {/* <img src={logo} alt="Logo" /> */}
+        <Navbar.Brand href="#home" className="brand">
+          JL<span>.</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav">
           <span className="navbar-toggler-icon"></span>
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link href="#home" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>Home</Nav.Link>
-            <Nav.Link href="#skills" className={activeLink === 'skills' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('skills')}>Skills</Nav.Link>
-            <Nav.Link href="#projects" className={activeLink === 'projects' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('projects')}>Projects</Nav.Link>
+            {SECTIONS.map((id) => (
+              <Nav.Link
+                key={id}
+                href={`#${id}`}
+                eventKey={id}
+                className={activeLink === id ? 'active navbar-link' : 'navbar-link'}
+                onClick={() => setActiveLink(id)}
+              >
+                {t.nav[id]}
+              </Nav.Link>
+            ))}
           </Nav>
           <span className="navbar-text">
-            <div className="social-icon">
-              <a href="https://www.linkedin.com/in/jose-luis-rativa-medina-706b841bb/"><img src={navIcon1} alt="" /></a>
-              <a href="#"><img src={navIcon2} alt="" /></a>
-              <a href="https://www.instagram.com/jlrm1106/"><img src={navIcon3} alt="" /></a>
+            <div className="lang-switch" role="group" aria-label="Language">
+              {LANGUAGES.map((code) => (
+                <button
+                  key={code}
+                  type="button"
+                  className={lang === code ? 'active' : ''}
+                  aria-pressed={lang === code}
+                  onClick={() => setLang(code)}
+                >
+                  {code.toUpperCase()}
+                </button>
+              ))}
             </div>
-            <HashLink to='#connect'>
-              <button className="vvd"><span>Contact</span></button>
-            </HashLink>
+            <div className="social-icon">
+              {SOCIAL_LINKS.map(({ href, label, Icon }) => (
+                <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}>
+                  <Icon size={16} />
+                </a>
+              ))}
+            </div>
+            <a href="#connect">
+              <button className="vvd"><span>{t.nav.contact}</span></button>
+            </a>
           </span>
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  </Router>
   )
 }

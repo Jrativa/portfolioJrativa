@@ -1,12 +1,12 @@
-
 import { useState, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import contactImg from "../assets/images/contact.png";
 import emailjs from '@emailjs/browser';
-// import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+import { useLanguage } from "../i18n/LanguageContext";
 
 export const Contact = () => {
+  const { t } = useLanguage();
   const formInitialDetails = {
     firstName: '',
     lastName: '',
@@ -15,8 +15,8 @@ export const Contact = () => {
     message: ''
   }
   const [formDetails, setFormDetails] = useState(formInitialDetails);
-  const [buttonText, setButtonText] = useState('Send');
-//   const [status, setStatus] = useState({});
+  const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState(null);
 
   const form = useRef();
 
@@ -29,64 +29,60 @@ export const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setButtonText("Sending...");
-    emailjs.sendForm('service_pty5cks', 'template_g3mct0r', form.current, 'WqRl_eIxbYwhVqklc')
-      .then((result) => {
-          console.log(result.text);
-            //setStatus({"success": true, "message": "Message sent successfully!"});
-            alert("Message sent successfully!");
-            setFormDetails(formInitialDetails);
-
-      }, (error) => {
-          console.log(error.text);
-            //setStatus({"success": false, "message": "There was an error sending the message."});
-            alert("There was an error sending the message.");
-
-      });
-    setButtonText("Send");
-    
+    setSending(true);
+    setStatus(null);
+    try {
+      await emailjs.sendForm('service_pty5cks', 'template_g3mct0r', form.current, 'WqRl_eIxbYwhVqklc');
+      setStatus({ success: true });
+      setFormDetails(formInitialDetails);
+    } catch (error) {
+      console.log(error.text);
+      setStatus({ success: false });
+    }
+    setSending(false);
   };
 
   return (
     <section className="contact" id="connect">
       <Container>
         <Row className="align-items-center">
-          <Col size={12} md={6}>
-            <TrackVisibility>
+          <Col xs={12} md={6} className="d-none d-md-block">
+            <TrackVisibility once>
               {({ isVisible }) =>
-                <img className={isVisible ? "contact-img animate__animated animate__zoomIn" : "contact-img"} src={contactImg} alt="Contact Us"/>
+                <img className={isVisible ? "contact-img animate__animated animate__zoomIn" : "contact-img"} src={contactImg} alt=""/>
               }
             </TrackVisibility>
           </Col>
-          <Col size={12} md={6}>
-            <TrackVisibility>
+          <Col xs={12} md={6}>
+            <TrackVisibility once partialVisibility>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                <h2>Contact me!</h2>
+                <h2>{t.contact.title}</h2>
+                <p className="contact-subtitle">{t.contact.subtitle}</p>
                 <form ref={form} onSubmit={handleSubmit}>
                   <Row>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="text" value={formDetails.firstName} placeholder="First Name" name="user_firstname" onChange={(e) => onFormUpdate('firstName', e.target.value)} />
+                    <Col xs={12} sm={6} className="px-1">
+                      <input type="text" required value={formDetails.firstName} placeholder={t.contact.firstName} aria-label={t.contact.firstName} name="user_firstname" onChange={(e) => onFormUpdate('firstName', e.target.value)} />
                     </Col>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="text" value={formDetails.lastName} placeholder="Last Name" name="user_lastname" onChange={(e) => onFormUpdate('lastName', e.target.value)}/>
+                    <Col xs={12} sm={6} className="px-1">
+                      <input type="text" value={formDetails.lastName} placeholder={t.contact.lastName} aria-label={t.contact.lastName} name="user_lastname" onChange={(e) => onFormUpdate('lastName', e.target.value)}/>
                     </Col>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="email" value={formDetails.email} placeholder="Email Address" name="user_email" onChange={(e) => onFormUpdate('email', e.target.value)} />
+                    <Col xs={12} sm={6} className="px-1">
+                      <input type="email" required value={formDetails.email} placeholder={t.contact.email} aria-label={t.contact.email} name="user_email" onChange={(e) => onFormUpdate('email', e.target.value)} />
                     </Col>
-                    <Col size={12} sm={6} className="px-1">
-                      <input type="tel" value={formDetails.phone} placeholder="Phone No." name="user_phone" onChange={(e) => onFormUpdate('phone', e.target.value)}/>
+                    <Col xs={12} sm={6} className="px-1">
+                      <input type="tel" value={formDetails.phone} placeholder={t.contact.phone} aria-label={t.contact.phone} name="user_phone" onChange={(e) => onFormUpdate('phone', e.target.value)}/>
                     </Col>
-                    <Col size={12} className="px-1">
-                      <textarea rows="6" value={formDetails.message} placeholder="Message" name="message" onChange={(e) => onFormUpdate('message', e.target.value)}></textarea>
-                      <button type="submit"><span>{buttonText}</span></button>
+                    <Col xs={12} className="px-1">
+                      <textarea rows="6" required value={formDetails.message} placeholder={t.contact.message} aria-label={t.contact.message} name="message" onChange={(e) => onFormUpdate('message', e.target.value)}></textarea>
+                      <button type="submit" disabled={sending}><span>{sending ? t.contact.sending : t.contact.send}</span></button>
                     </Col>
-                    {/* {
-                      status.message &&
-                      <Col>
-                        <p className={status.success === false ? "danger" : "success"}>{status.message}</p>
+                    {
+                      status &&
+                      <Col xs={12} className="px-1">
+                        <p className={status.success ? "success" : "danger"} role="status">{status.success ? t.contact.success : t.contact.error}</p>
                       </Col>
-                    } */}
+                    }
                   </Row>
                 </form>
               </div>}
