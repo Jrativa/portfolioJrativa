@@ -8,7 +8,8 @@ const TRANSLATIONS = { es, en, fr };
 export const LANGUAGES = ['es', 'en', 'fr'];
 
 export const CV_FILES = {
-  es: '/cv/CV_Jose_Luis_Rativa_Medina_ES.pdf',
+  // No Spanish CV yet: fall back to the English one
+  es: '/cv/CV_Jose_Luis_Rativa_Medina_EN.pdf',
   en: '/cv/CV_Jose_Luis_Rativa_Medina_EN.pdf',
   fr: '/cv/CV_Jose_Luis_Rativa_Medina_FR.pdf',
 };
