@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import contactImg from "../assets/images/contact.png";
+import { Envelope, Linkedin } from "react-bootstrap-icons";
 import emailjs from '@emailjs/browser';
 import TrackVisibility from 'react-on-screen';
 import { useLanguage } from "../i18n/LanguageContext";
@@ -45,20 +45,25 @@ export const Contact = () => {
   return (
     <section className="contact" id="connect">
       <Container>
-        <Row className="align-items-center">
-          <Col xs={12} md={6} className="d-none d-md-block">
-            <TrackVisibility once>
-              {({ isVisible }) =>
-                <img className={isVisible ? "contact-img animate__animated animate__zoomIn" : "contact-img"} src={contactImg} alt=""/>
-              }
-            </TrackVisibility>
+        <Row className="align-items-start">
+          <Col xs={12} md={5} className="mb-4 mb-md-0">
+            <h2>{t.contact.title}</h2>
+            <p className="contact-subtitle">{t.contact.subtitle}</p>
+            <ul className="contact-info">
+              <li>
+                <span className="contact-info-icon"><Envelope size={18} /></span>
+                <a href="mailto:jrativamedina@gmail.com">jrativamedina@gmail.com</a>
+              </li>
+              <li>
+                <span className="contact-info-icon"><Linkedin size={18} /></span>
+                <a href="https://www.linkedin.com/in/jrativamedina" target="_blank" rel="noreferrer">linkedin.com/in/jrativamedina</a>
+              </li>
+            </ul>
           </Col>
-          <Col xs={12} md={6}>
+          <Col xs={12} md={7}>
             <TrackVisibility once partialVisibility>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                <h2>{t.contact.title}</h2>
-                <p className="contact-subtitle">{t.contact.subtitle}</p>
                 <form ref={form} onSubmit={handleSubmit}>
                   <Row>
                     <Col xs={12} sm={6} className="px-1">

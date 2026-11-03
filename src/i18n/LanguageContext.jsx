@@ -5,7 +5,7 @@ import { en } from "./en";
 import { fr } from "./fr";
 
 const TRANSLATIONS = { es, en, fr };
-export const LANGUAGES = ['es', 'en', 'fr'];
+export const LANGUAGES = ['en', 'fr', 'es'];
 
 export const CV_FILES = {
   // No Spanish CV yet: fall back to the English one
@@ -23,8 +23,7 @@ const getInitialLanguage = () => {
   } catch {
     // Storage unavailable (private mode, blocked cookies)
   }
-  const browser = (navigator.language || 'en').slice(0, 2).toLowerCase();
-  return LANGUAGES.includes(browser) ? browser : 'en';
+  return 'en';
 };
 
 const LanguageContext = createContext(null);

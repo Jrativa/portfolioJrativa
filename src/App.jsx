@@ -10,11 +10,13 @@ import { Skills } from './components/Skills'
 import { Projects } from './components/Projects'
 import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
+import { NeonCats } from './components/NeonCats'
 
 function App() {
 
   return (
     <LanguageProvider>
+      <NeonCats />
       <div className="App">
         <NavBar />
         <Banner />
