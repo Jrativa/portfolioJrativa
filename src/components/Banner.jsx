@@ -12,7 +12,7 @@ export const Banner = () => {
         <section className="banner" id="home">
             <Container>
                 <Row className="align-items-center">
-                    <Col xs={12} md={7} className="banner-left">
+                    <Col xs={12} lg={7} className="banner-left">
                         <span className="tagline">{t.banner.tagline}</span>
                         <h1>{t.banner.greeting}<br /><span className="wrap">{text}</span></h1>
                         <p>{t.banner.profile}</p>
@@ -25,7 +25,7 @@ export const Banner = () => {
                             </a>
                         </div>
                     </Col>
-                    <Col xs={12} md={5} className="banner-right">
+                    <Col xs={12} lg={5} className="banner-right">
                         <CodeCard />
                     </Col>
                 </Row>

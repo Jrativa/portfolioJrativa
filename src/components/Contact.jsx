@@ -1,9 +1,14 @@
 import { useState, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { Envelope, Linkedin } from "react-bootstrap-icons";
+import { Envelope, Linkedin, Telephone } from "react-bootstrap-icons";
 import emailjs from '@emailjs/browser';
 import TrackVisibility from 'react-on-screen';
 import { useLanguage } from "../i18n/LanguageContext";
+
+const PHONES = [
+  { tel: '+33629271347', label: '+33 6 29 27 13 47' },
+  { tel: '+573138501423', label: '+57 313 850 14 23' },
+];
 
 export const Contact = () => {
   const { t } = useLanguage();
@@ -58,6 +63,12 @@ export const Contact = () => {
                 <span className="contact-info-icon"><Linkedin size={18} /></span>
                 <a href="https://www.linkedin.com/in/jrativamedina" target="_blank" rel="noreferrer">linkedin.com/in/jrativamedina</a>
               </li>
+              {PHONES.map((phone) => (
+                <li key={phone.tel}>
+                  <span className="contact-info-icon"><Telephone size={18} /></span>
+                  <a href={`tel:${phone.tel}`}>{phone.label}</a>
+                </li>
+              ))}
             </ul>
           </Col>
           <Col xs={12} md={7}>

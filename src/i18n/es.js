@@ -11,7 +11,7 @@ export const es = {
     contact: 'Contacto',
   },
   banner: {
-    tagline: 'Bienvenido a mi portafolio',
+    tagline: 'Bienvenidos a mi sitio web',
     greeting: 'Hola, soy Jose Luis',
     roles: ['Ingeniero de IA', 'Ingeniero de Software', 'GenAI & Agentic AI'],
     profile: 'Ingeniero de IA e Ingeniero de Software con experiencia práctica construyendo y desplegando sistemas de IA Generativa y Agéntica: RAG, destilación de LLMs, memoria conversacional y agentes de voz en tiempo real. Sólida formación en ingeniería de software con TypeScript, React, Node.js y Python, y experiencia en investigación en modelos generativos, visión por computador y seguridad IoT.',
